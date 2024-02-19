@@ -1,8 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "./include/authentication_screen.h"
 
 int main()
 {
-    printf("Hello world!\n");
+    system("title Ticket Booking System");
+    system("color 60");
+
+    main_authentication_screen();
+
     return 0;
 }
