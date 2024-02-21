@@ -28,13 +28,14 @@ void admin_login(void)
         printf("Enter Administrator Password: ");
         scanf(" %[^\n]", input_password);
 
+        // check admin password is valid
         if(strcmp(ADMIN_PASSWORD, input_password) == 0)
         {
             printf("\n-------------------------------------------------------------- \n");
             printf("   >>> Administrator Login Successfully. WELCOME %s <<< \n", ADMIN_NAME);
             printf("-------------------------------------------------------------- \n");
 
-            Sleep(5000);
+            Sleep(3000);
 
             // admin dashboard
             admin_dashboard();
@@ -52,8 +53,6 @@ void admin_login(void)
         system("pause");
         exit(EXIT_FAILURE);
     }
-
-
 }
 
 // dashboard

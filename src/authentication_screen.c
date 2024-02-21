@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "../include/authentication_screen.h"
 #include "../include/admin.h"
+#include "../include/user_authentication.h"
 
 // all function
 void main_authentication_screen(void);
@@ -49,7 +50,7 @@ void registration_screen(void)
             // user login
             break;
         case 3:
-            // sign up;
+            user_sign_up();
             break;
         case 4:
             exit_screen();
