@@ -59,7 +59,7 @@ void user_sign_up(void)
     int result = fprintf(fp, "%s %s %s %s %s %s\n", p.name, p.phone, p.gender, p.city, p.password, p.confirm_password);
     if(result >= 0)
     {
-        Sleep(1000);
+        sleep(1000);
         printf("\n------------------------------------- \n");
         printf("   >>> Data Write Successfully.! <<< \n");
         printf("------------------------------------- \n");
@@ -72,4 +72,56 @@ void user_sign_up(void)
 
     // close file
     fclose(fp);
+}
+
+// user login
+void user_sign_in(void)
+{
+    system("cls");
+    system("title User Sign In");
+
+    struct Person p;
+    unsigned int counter = 1;
+    char data_file[] = "./data/database.txt";
+    char temporary_file[] = "./data/temporary.txt";
+    char usr_name[51];
+    FILE *fd, *ft;
+
+    // file open
+    fd = fopen(data_file, "r");
+    ft = fopen(temporary_file, "w");
+
+    printf("\t\t\t------------------------ \n");
+    printf("\t\t\t   >>> User Log In <<< \n");
+    printf("\t\t\t------------------------ \n\n");
+
+    printf("Enter Your Domain: ");
+    scanf(" %[^\n]", &usr_name);
+
+    // read file
+    while(fscanf(fd, "%s %s %s %s %s %s\n", p.name, p.phone, p.gender, p.city, p.password, p.confirm_password))
+    {
+        if(strcmp(usr_name, p.name) == 0)
+        {
+            printf("\n\t\tALERT: We found another contact with the same name.\n\t\t\tPlease review it too.\n\n");
+
+            printf("\t\t|===============================================================| \n");
+            printf("\t\t|ID| \tName\t\t| Phone Number\t | Gender| City Name\t| \n");
+            printf("\t\t|===============================================================| \n");
+            printf("\t\t| %d| %s \t\t| %s    | %s  | %s \t| \n", counter++, p.name, p.phone, p.gender, p.city);
+
+            break;
+        }
+        else
+        {
+            // when user name is invalid
+            fprintf(stderr, "\nError! User Name is INVALID.!\n\n");
+            sleep(1000);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    // file close
+    fclose(fd);
+    fclose(ft);
 }
