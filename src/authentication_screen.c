@@ -47,7 +47,7 @@ void registration_screen(void)
             admin_login();
             break;
         case 2:
-            // user login
+            user_sign_in();
             break;
         case 3:
             user_sign_up();

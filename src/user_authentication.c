@@ -5,6 +5,7 @@
 #include "../include/person_struct.h"
 
 #define SECRET_KEY 0xFACADBF
+#define MAX_LENGTH 255
 
 void user_sign_up(void)
 {
@@ -18,18 +19,24 @@ void user_sign_up(void)
     // initialize struct
     struct Person p;
     FILE *fp;
-    char data_base_name[] = "./data/database.txt";
+    // char data_base_name[51]; // = "./data/database.txt";
+    char file_folder[MAX_LENGTH] = "./data/";
+    char file_formate[10] = ".txt";
 
-    // file open
-    fp = fopen(data_base_name, "ab+");
+    printf("Enter Your Name (Space Not Allow.! Only Small letter & number combine.!) : ");
+    scanf(" %[^\n]", p.name);
+
+    // create database name
+    strcat(file_folder, p.name);
+    strcat(file_folder, file_formate);
+
+     // file open
+    fp = fopen(file_folder, "ab+");
     if(fp == NULL)
     {
         fprintf(stderr, "Error! File Opening Failed.!");
         exit(EXIT_FAILURE);
     }
-
-    printf("Enter Your Name (Space Not Allow.! Only Small letter & number combine.!) : ");
-    scanf(" %[^\n]", p.name);
 
     printf("Enter Your Phone Number: (Only BD Phone number valid.!)(+88): ");
     scanf(" %[^\n]", p.phone);
@@ -59,7 +66,7 @@ void user_sign_up(void)
     int result = fprintf(fp, "%s %s %s %s %s %s\n", p.name, p.phone, p.gender, p.city, p.password, p.confirm_password);
     if(result >= 0)
     {
-        sleep(1000);
+        Sleep(1000);
         printf("\n------------------------------------- \n");
         printf("   >>> Data Write Successfully.! <<< \n");
         printf("------------------------------------- \n");
@@ -82,46 +89,74 @@ void user_sign_in(void)
 
     struct Person p;
     unsigned int counter = 1;
-    char data_file[] = "./data/database.txt";
-    char temporary_file[] = "./data/temporary.txt";
-    char usr_name[51];
-    FILE *fd, *ft;
-
-    // file open
-    fd = fopen(data_file, "r");
-    ft = fopen(temporary_file, "w");
+    // char data_file[] = "./data/database.txt";
+    char file_folder[MAX_LENGTH] = "./data/";
+    char file_formate[10] = ".txt";
+    char usr_name[MAX_LENGTH];
+    char usr_password[MAX_LENGTH];
+    FILE *fp;
 
     printf("\t\t\t------------------------ \n");
     printf("\t\t\t   >>> User Log In <<< \n");
     printf("\t\t\t------------------------ \n\n");
 
     printf("Enter Your Domain: ");
-    scanf(" %[^\n]", &usr_name);
+    scanf(" %[^\n]", usr_name);
+
+    // create database name
+    strcat(file_folder, usr_name);
+    strcat(file_folder, file_formate);
+
+    // file open
+    fp = fopen(file_folder, "r");
+    if(fp == NULL)
+    {
+        fprintf(stderr, "Error! User Name Invalid.!");
+        exit(EXIT_FAILURE);
+    }
 
     // read file
-    while(fscanf(fd, "%s %s %s %s %s %s\n", p.name, p.phone, p.gender, p.city, p.password, p.confirm_password))
+    while(fscanf(fp, "%s %s %s %s %s %s\n", p.name, p.phone, p.gender, p.city, p.password, p.confirm_password))
     {
         if(strcmp(usr_name, p.name) == 0)
         {
             printf("\n\t\tALERT: We found another contact with the same name.\n\t\t\tPlease review it too.\n\n");
 
-            printf("\t\t|===============================================================| \n");
-            printf("\t\t|ID| \tName\t\t| Phone Number\t | Gender| City Name\t| \n");
-            printf("\t\t|===============================================================| \n");
-            printf("\t\t| %d| %s \t\t| %s    | %s  | %s \t| \n", counter++, p.name, p.phone, p.gender, p.city);
+            printf("Enter Your Password: ");
+            scanf(" %[^\n]", usr_password);
 
-            break;
+            if(strcmp(usr_password, p.password) == 0)
+            {
+                system("cls");
+
+                printf("\t\t\t-------------------------- \n");
+                printf("\t\t\t   >>> WELCOME %s <<< \n", p.name);
+                printf("\t\t\t-------------------------- \n\n");
+
+                printf("\t\t|===================================================================================| \n");
+                printf("\t\t|ID| \tName\t\t| Phone Number\t | Gender| City Name\t\t| Password  | \n");
+                printf("\t\t|===================================================================================| \n");
+                printf("\t\t| %u| %s \t\t| %s    | %s  | %s \t\t| %s\t|\n", counter, p.name, p.phone, p.gender, p.city, p.password);
+
+                break;
+            }
+            else
+            {
+                // when password is invalid
+                fprintf(stderr, "\nError.! Password is Invalid.!");
+                Sleep(1000);
+                exit(EXIT_FAILURE);
+            }
         }
         else
         {
             // when user name is invalid
             fprintf(stderr, "\nError! User Name is INVALID.!\n\n");
-            sleep(1000);
+            Sleep(1000);
             exit(EXIT_FAILURE);
         }
     }
 
     // file close
-    fclose(fd);
-    fclose(ft);
+    fclose(fp);
 }
