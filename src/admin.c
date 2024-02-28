@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/authentication_screen.h"
+#include "../include/admin_dashboard.h"
 
 #define ADMIN_NAME "muhammad"
 #define ADMIN_PASSWORD "123"

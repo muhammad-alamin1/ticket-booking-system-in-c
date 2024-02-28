@@ -7,7 +7,8 @@ int main()
     system("title Ticket Booking System");
     system("color 60");
 
-    main_authentication_screen();
+    // main_authentication_screen();
+    user_dashboard();
 
     return 0;
 }

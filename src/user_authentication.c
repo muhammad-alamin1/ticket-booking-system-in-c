@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "../include/person_struct.h"
+#include "../include/user_dashboard.h"
 
 #define SECRET_KEY 0xFACADBF
 #define MAX_LENGTH 255
@@ -137,6 +138,9 @@ void user_sign_in(void)
                 printf("\t\t|ID| \tName\t\t| Phone Number\t | Gender| City Name\t\t| Password  | \n");
                 printf("\t\t|===================================================================================| \n");
                 printf("\t\t| %u| %s \t\t| %s    | %s  | %s \t\t| %s\t|\n", counter, p.name, p.phone, p.gender, p.city, p.password);
+
+                // going to user dashboard
+                user_dashboard();
 
                 break;
             }
